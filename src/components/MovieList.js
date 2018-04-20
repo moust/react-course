@@ -40,7 +40,7 @@ export default class MovieList extends React.PureComponent {
       ));
   }
 
-  filterByCategory = (category) => {
+  filterByCategory = category => {
     this.setState({ categoryFilter: category });
   }
 

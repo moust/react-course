@@ -1,26 +1,24 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import { fetchMovies } from '../actions/movies';
 
 import MovieList from '../components/MovieList';
 
-export default class App extends React.PureComponent {
+class App extends React.PureComponent {
 
-  static fetchMovies() {
-    return fetch('/movies.json')
-      .then((res) => {
-        if (res.ok) {
-          return res;
-        }
-        throw new Error(res.statusText);
-      })
-      .then(res => res.json());
-  }
+  static propTypes = {
+    movies: PropTypes.array,
+    fetchMovies: PropTypes.func.isRequired
+  };
 
-  state = {
+  static defaultProps = {
     movies: []
   };
 
   componentDidMount() {
-    App.fetchMovies().then(movies => this.setState({ movies }));
+    this.props.fetchMovies();
   }
 
   render() {
@@ -34,10 +32,21 @@ export default class App extends React.PureComponent {
           </nav>
         </header>
         <main role="main">
-          <MovieList movies={this.state.movies} />
+          <MovieList movies={this.props.movies} />
         </main>
       </div>
     );
   }
 
 }
+
+
+const mapStateToProps = state => ({
+  movies: state.movies
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchMovies: () => dispatch(fetchMovies())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -14,7 +14,7 @@ export default class CategoryFilters extends React.PureComponent {
     active: false
   };
 
-  handleCategoryFilter = (e) => {
+  handleCategoryFilter = e => {
     e.preventDefault();
     this.props.handleCategoryFilter(this.props.category);
   }
